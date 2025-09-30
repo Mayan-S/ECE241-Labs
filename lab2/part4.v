@@ -1,3 +1,5 @@
+// Do Not Submit
+
 module part4 (SW, LEDR, HEX5, HEX4, HEX3, HEX2, HEX1, HEX0);
     input  [8:0] SW;         
     output [9:0] LEDR;       
@@ -15,25 +17,25 @@ module part4 (SW, LEDR, HEX5, HEX4, HEX3, HEX2, HEX1, HEX0);
     assign Y   = SW[3:0];
     assign cin = SW[8];
 
-    // Step 1: Perform binary addition
+    // Perform binary addition
     assign binary_sum = X + Y + cin;
 
-    // Step 2: Detect invalid BCD inputs
+    // Detect invalid BCD inputs
     assign invalid = (X > 9) | (Y > 9);
 
-    // Step 3: Correct sum if > 9
+    // Correct sum if > 9
     assign corrected_sum = (binary_sum > 9) ? (binary_sum + 6) : binary_sum;
 
-    // Step 4: Extract BCD digits
+    // Extract BCD digits
     assign tens = corrected_sum / 10;
     assign ones = corrected_sum % 10;
 
-    // Step 5: Drive outputs
+    // Drive outputs
     assign LEDR[4:0] = binary_sum; 
     assign LEDR[9]   = invalid;     
     assign LEDR[8:5] = 4'b0;
 
-    // Step 6: 7-seg decoders
+    // 7-seg decoders
     seg7 X_display (X, HEX5); 
     assign HEX4 = 7'b1111111;       
     seg7 Y_display (Y, HEX3);
