@@ -20,6 +20,10 @@ module part1 (SW, LEDR);
     d_latch slave (.Clk(SW[1]), .D(Qa_m), .Qa(Qa_s), .Qb(Qb_s));
 
     assign LEDR[0] = Qa_s;
+
+	//Turn on: SW[0] == 1, then SW[1] ==1
+	//Turn off: SW[0] == 0, then toggle SW[1] on and off
 	 
 endmodule
+
 
