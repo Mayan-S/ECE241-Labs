@@ -15,16 +15,13 @@ module part3 (SW, LEDR);
 
     wire Qa_m, Qb_m, Qa_s, Qb_s;
 
-    d_latch master (.Clk(~SW[1]), .D(SW[0]), .Qa(Qa_m), .Qb(Qb_m));
+    d_latch Master (.Clk(~SW[1]), .D(SW[0]), .Qa(Qa_m), .Qb(Qb_m));
 	 
-    d_latch slave (.Clk(SW[1]), .D(Qa_m), .Qa(Qa_s), .Qb(Qb_s));
+    d_latch Slave (.Clk(SW[1]), .D(Qa_m), .Qa(Qa_s), .Qb(Qb_s));
 
     assign LEDR[0] = Qa_s;
 
 	//Turn on: SW[0] == 1, then SW[1] ==1
 	//Turn off: SW[0] == 0, then toggle SW[1] on and off
-	 
+	
 endmodule
-
-
-
