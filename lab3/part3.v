@@ -9,7 +9,7 @@ module d_latch (Clk, D, Qa, Qb);
     assign Qb = ~(S_g | Qa);
 endmodule
 
-module part1 (SW, LEDR);
+module part3 (SW, LEDR);
     input [1:0] SW;
     output [9:0] LEDR;
 
@@ -25,5 +25,6 @@ module part1 (SW, LEDR);
 	//Turn off: SW[0] == 0, then toggle SW[1] on and off
 	 
 endmodule
+
 
 
