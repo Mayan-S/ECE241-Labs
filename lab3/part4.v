@@ -9,7 +9,7 @@ module d_latch (Clk, D, Qa, Qb);
     assign Qb = ~(S_g | Qa);
 endmodule
 
-module part1 (SW, LEDR);
+module part4 (SW, LEDR);
     input [1:0] SW;
     output [9:0] LEDR;
 
@@ -29,4 +29,5 @@ module part1 (SW, LEDR);
     assign LEDR[1] = Qb;
     assign LEDR[2] = Qc;
 endmodule
+
 
