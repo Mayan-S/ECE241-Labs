@@ -17,6 +17,6 @@ module part2 (SW, LEDR);
 	 
     d_latch u1 (.Clk(SW[1]), .D(SW[0]), .Qa(Qa), .Qb(Qb));
     
-	 assign LEDR[0] = Qa;
+	assign LEDR[0] = Qa;
 	 
 endmodule

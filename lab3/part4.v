@@ -29,5 +29,3 @@ module part4 (SW, LEDR);
     assign LEDR[1] = Qb;
     assign LEDR[2] = Qc;
 endmodule
-
-
