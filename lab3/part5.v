@@ -1,68 +1,80 @@
-module part5 (
-    input [7:0] SW,       // Switches for input
-    input [1:0] KEY,      // Keys for reset and clock
-    output [6:0] HEX5,    // 7-segment display for sum
-    output [6:0] HEX4,    // 7-segment display for sum
-    output [6:0] HEX3,    // 7-segment display for A
-    output [6:0] HEX2,    // 7-segment display for A
-    output [6:0] HEX1,    // 7-segment display for B
-    output [6:0] HEX0,    // 7-segment display for B
-    output [9:0] LEDR     // LEDR[0] for carry-out
-);
-
-    reg [7:0] A, B;
-    wire [8:0] S; // 9 bits to accommodate carry-out
-
-    // Assign the sum
-    assign S = A + B;
-
-    // Display the carry-out
-    assign LEDR[0] = S[8];
-
-    // 7-segment display decoder
-    function [6:0] hex_to_7seg;
-        input [3:0] hex;
-        case (hex)
-            4'h0: hex_to_7seg = 7'b1000000;
-            4'h1: hex_to_7seg = 7'b1111001;
-            4'h2: hex_to_7seg = 7'b0100100;
-            4'h3: hex_to_7seg = 7'b0110000;
-            4'h4: hex_to_7seg = 7'b0011001;
-            4'h5: hex_to_7seg = 7'b0010010;
-            4'h6: hex_to_7seg = 7'b0000010;
-            4'h7: hex_to_7seg = 7'b1111000;
-            4'h8: hex_to_7seg = 7'b0000000;
-            4'h9: hex_to_7seg = 7'b0010000;
-            4'hA: hex_to_7seg = 7'b0001000;
-            4'hB: hex_to_7seg = 7'b0000011;
-            4'hC: hex_to_7seg = 7'b1000110;
-            4'hD: hex_to_7seg = 7'b0100001;
-            4'hE: hex_to_7seg = 7'b0000110;
-            4'hF: hex_to_7seg = 7'b0001110;
-            default: hex_to_7seg = 7'b1111111; // Blank
-        endcase
-    endfunction
-
-    // Assign 7-segment displays
-    assign HEX3 = hex_to_7seg(A[7:4]);
-    assign HEX2 = hex_to_7seg(A[3:0]);
-    assign HEX1 = hex_to_7seg(B[7:4]);
-    assign HEX0 = hex_to_7seg(B[3:0]);
-    assign HEX5 = hex_to_7seg(S[7:4]);
-    assign HEX4 = hex_to_7seg(S[3:0]);
-
-    // Register logic for A and B
-    always @(negedge KEY[1] or negedge KEY[0]) begin
-        if (!KEY[0]) begin
-            A <= 8'b0;
-            B <= 8'b0;
-        end else begin
-            if (SW[7:0] != 8'b0) begin
-                A <= SW[7:0];
-            end else begin
-                B <= SW[7:0];
-            end
-        end
-    end
-
+module part5 (SW, KEY, HEX5, HEX4, HEX3, HEX2, HEX1, HEX0, LEDR);
+   input [7:0] SW;
+   input [1:0] KEY;
+   reg [7:0] Q;
+   wire [7:0] B = SW;
+   wire [7:0] S;
+   output [6:0] HEX5, HEX4, HEX3, HEX2, HEX1, HEX0;
+   output [9:0] LEDR;
+   wire cout;
+wire Resetn = KEY[0];
+wire clk = KEY[1];
+always @ (negedge Resetn, posedge clk)
+       if (!Resetn)
+           Q <= 8'b0;
+       else
+           Q <= SW;
+   rAdder do2 (Q, B, S, cout);
+   hexDisplay do3 (Q[3:0], HEX2);
+   hexDisplay do4 (Q[7:4], HEX3);
+   hexDisplay do5 (B[3:0], HEX0);
+   hexDisplay do6 (B[7:4], HEX1);
+   hexDisplay do7 (S[3:0], HEX4);
+   hexDisplay do8 (S[7:4], HEX5);
+   assign LEDR[0] = cout;
 endmodule
+
+
+module rAdder (x, y, s, Cout);
+  input [7:0] x;
+  input [7:0] y;
+  wire Cin = 1'b0;
+  output [7:0] s;
+  output Cout;
+
+
+
+
+  wire c1, c2, c3, c4, c5, c6, c7;
+
+
+
+
+  fAdder u1 (x[0], y[0], Cin, s[0], c1);
+  fAdder u2 (x[1], y[1], c1, s[1], c2);
+  fAdder u3 (x[2], y[2], c2, s[2], c3);
+  fAdder u4 (x[3], y[3], c3, s[3], c4);
+  fAdder u5 (x[4], y[4], c4, s[4], c5);
+  fAdder u6 (x[5], y[5], c5, s[5], c6);
+  fAdder u7 (x[6], y[6], c6, s[6], c7);
+  fAdder u8 (x[7], y[7], c7, s[7], Cout);
+endmodule
+
+
+
+
+module fAdder (a, b, cin, s, cout);
+  input a, b, cin;
+  output s, cout;
+  assign s = a^b^cin;
+  assign cout = (a & b) | (a & cin) | (b & cin);
+endmodule
+
+
+module hexDisplay (S, h);
+   input [3:0] S;
+   output [6:0] h;
+  wire s0, s1, s2, s3;
+  assign s0 = S[0];
+  assign s1 = S[1];
+  assign s2 = S[2];
+  assign s3 = S[3];
+   assign h[0] = (~s3 & s2 & ~s1 & ~s0) | (~s3 & ~s2 & ~s1 & s0) | (s3 & s2 & ~s1 & s0) | (s3 & ~s2 & s1 & s0); 
+  assign h[1] = (s3 & s2 & ~s1 & ~s0) | (~s3 & s2 & ~s1 & s0) | (s3 & s1 & s0) | (s2 & s1 & ~s0);
+  assign h[2] = (s3 & s2 & s1) | (~s3 & ~s2 & s1 & ~s0) | (s3 & s2 & ~s0);
+  assign h[3] = (~s3 & s2 & ~s1 & ~s0) | (~s2 & ~s1 & s0) | (s2 & s1 & s0) | (s3 & ~s2 & s1 & ~s0);
+  assign h[4] = (~s3 & s0) | (~s3 & s2 & ~s1) | (~s2 & ~s1 & s0);
+  assign h[5] = (~s3 & ~s2 & s0) | (~s3 & s1 & s0) | (~s3 & ~s2 & s1) | (s3 & s2 & ~s1 & s0);
+  assign h[6] = (~s3 & ~s2 & ~s1) | (~s3 & s2 & s1 & s0) | (s3 & s2 & ~s1 & ~s0);
+endmodule
+
