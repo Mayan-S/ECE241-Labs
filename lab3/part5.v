@@ -7,13 +7,14 @@ module part5 (SW, KEY, HEX5, HEX4, HEX3, HEX2, HEX1, HEX0, LEDR);
    output [6:0] HEX5, HEX4, HEX3, HEX2, HEX1, HEX0;
    output [9:0] LEDR;
    wire cout;
-wire Resetn = KEY[0];
-wire clk = KEY[1];
-always @ (negedge Resetn, posedge clk)
-       if (!Resetn)
-           Q <= 8'b0;
-       else
-           Q <= SW;
+
+  wire Resetn = KEY[0];
+  wire clk = KEY[1];
+  always @ (negedge Resetn, posedge clk)
+        if (!Resetn)
+            Q <= 8'b0;
+        else
+            Q <= SW;
    rAdder do2 (Q, B, S, cout);
    hexDisplay do3 (Q[3:0], HEX2);
    hexDisplay do4 (Q[7:4], HEX3);
@@ -32,13 +33,7 @@ module rAdder (x, y, s, Cout);
   output [7:0] s;
   output Cout;
 
-
-
-
   wire c1, c2, c3, c4, c5, c6, c7;
-
-
-
 
   fAdder u1 (x[0], y[0], Cin, s[0], c1);
   fAdder u2 (x[1], y[1], c1, s[1], c2);

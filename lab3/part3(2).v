@@ -24,6 +24,4 @@ module part3 (SW, LEDR);
 
     assign LEDR[0] = Q_s;
 
-    // Turn on: SW[0] == 1, then SW[1] == 1
-    // Turn off: SW[0] == 0, then toggle SW[1] on and off
 endmodule
