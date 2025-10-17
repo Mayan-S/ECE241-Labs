@@ -1,3 +1,4 @@
+//Use THIS CODE
 module part3 (KEY, CLOCK_50, HEX0);
     input      [0:0] KEY;
     input            CLOCK_50;
