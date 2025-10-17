@@ -1,3 +1,4 @@
+//use this code
 module part4 (CLOCK_50, KEY, HEX5, HEX4, HEX3, HEX2, HEX1, HEX0);
     input CLOCK_50;  
     input  [0:0] KEY;  
