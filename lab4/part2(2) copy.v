@@ -1,3 +1,4 @@
+//use this code
 module hex_display (
     input  [3:0] value,
     output reg [6:0] HEX
