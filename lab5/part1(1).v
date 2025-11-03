@@ -1,8 +1,7 @@
-module part1(
-    input  [1:0] SW,    
-    input  [0:0] KEY,   
-    output [9:0] LEDR   
-);
+module part1(SW, KEY, LEDR);
+    input  [1:0] SW;   
+    input  [0:0] KEY;  
+    output [9:0] LEDR;
 
     wire reset_n = SW[0];
     wire w = SW[1];

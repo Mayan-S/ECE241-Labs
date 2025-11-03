@@ -1,9 +1,8 @@
-module part3(
-    input  [2:0] SW,
-    input CLOCK_50,
-    input  [1:0] KEY,
-    output [9:0] LEDR
-);
+module part3(SW, CLOCK_50, KEY, LEDR);
+    input  [2:0] SW;
+    input CLOCK_50;
+    input  [1:0] KEY;
+    output [9:0] LEDR;
 
     wire reset_n = KEY[0];
     wire start_tx = ~KEY[1];
