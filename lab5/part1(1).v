@@ -22,7 +22,7 @@ module part1(SW, KEY, LEDR);
 
     always @(posedge clk) begin
         if (!reset_n)    
-            y <= 9'b000000001;  // A = 000000001
+            y <= 9'b000000001;
         else              
             y <= d;
     end
