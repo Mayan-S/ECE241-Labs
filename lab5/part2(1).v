@@ -1,8 +1,8 @@
-module part2(
-    input  [1:0] SW,    
-    input  [0:0] KEY,   
-    output [9:0] LEDR
-);
+module part1(SW, KEY, LEDR);
+
+	input  [1:0] SW;  
+    input  [0:0] KEY;  
+    output [9:0] LEDR;
 
     wire reset_n = SW[0];
     wire w = SW[1];
@@ -11,7 +11,6 @@ module part2(
     reg  [3:0] y_Q, Y_D;
     wire z;
 
-    // symbolic state names
     parameter A = 4'b0000,
                B = 4'b0001,
                C = 4'b0010,
@@ -22,7 +21,6 @@ module part2(
                H = 4'b0111,
                I = 4'b1000;
 
-    // combinational next‐state
     always @(*) begin
         case (y_Q)
             A: Y_D = (w ? F : B);
