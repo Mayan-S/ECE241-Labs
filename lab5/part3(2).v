@@ -1,5 +1,4 @@
 module part3(SW, CLOCK_50, KEY, LEDR);
-
     input  [2:0] SW;
     input CLOCK_50;
     input  [1:0] KEY;

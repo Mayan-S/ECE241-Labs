@@ -1,7 +1,7 @@
 module part1(SW, KEY, LEDR);
 
-	input  [1:0] SW;  
-    input  [0:0] KEY;  
+	input [1:0] SW;  
+    input [0:0] KEY;  
     output [9:0] LEDR;
 
     wire reset_n = SW[0];
@@ -11,15 +11,7 @@ module part1(SW, KEY, LEDR);
     reg  [3:0] y_Q, Y_D;
     wire z;
 
-    parameter A = 4'b0000,
-               B = 4'b0001,
-               C = 4'b0010,
-               D = 4'b0011,
-               E = 4'b0100,
-               F = 4'b0101,
-               G = 4'b0110,
-               H = 4'b0111,
-               I = 4'b1000;
+    parameter A = 4'b0000, B = 4'b0001, C = 4'b0010, D = 4'b0011, E = 4'b0100, F = 4'b0101, G = 4'b0110, H = 4'b0111, I = 4'b1000;
 
     always @(*) begin
         case (y_Q)
