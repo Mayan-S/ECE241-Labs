@@ -8,23 +8,23 @@ module part1(SW, KEY, LEDR);
     wire clk = KEY[0];
 
     reg  [8:0] y;
-    wire [8:0] d;
+    wire [8:0] Y_n;
 
-    assign d[0] = 1'b0;                                   
-    assign d[1] = (~w) & (y[0] | y[5] | y[6] | y[7] | y[8]);
-    assign d[2] = (~w) & y[1];
-    assign d[3] = (~w) & y[2];
-    assign d[4] = (~w) & y[3];
-    assign d[5] =  w  & (y[0] | y[1] | y[2] | y[3] | y[4]);
-    assign d[6] =  w  & y[5];
-    assign d[7] =  w  & y[6];
-    assign d[8] =  w  & (y[7] | y[8]);
+    assign Y_n[0] = 1'b0;                                   
+    assign Y_n[1] = (~w) & (y[0] | y[5] | y[6] | y[7] | y[8]);
+    assign Y_n[2] = (~w) & y[1];
+    assign Y_n[3] = (~w) & y[2];
+    assign Y_n[4] = (~w) & (y[3] | y[4]);
+    assign Y_n[5] =  w  & (y[0] | y[1] | y[2] | y[3] | y[4]);
+    assign Y_n[6] =  w  & y[5];
+    assign Y_n[7] =  w  & y[6];
+    assign Y_n[8] =  w  & (y[7] | y[8]);
 
     always @(posedge clk) begin
         if (!reset_n)    
             y <= 9'b000000001;
         else              
-            y <= d;
+            y <= Y_n;
     end
 
     wire z = y[4] | y[8];
